@@ -81,8 +81,8 @@ class WC_Meta_Box_Order_Notes {
 			<p>
 				<label for="order_note_type" class="screen-reader-text"><?php _e( 'Note type', 'woocommerce' ); ?></label>
 				<select name="order_note_type" id="order_note_type">
+				    <option value="customer"><?php _e( 'Note to customer', 'woocommerce' ); ?></option>
 					<option value=""><?php _e( 'Private note', 'woocommerce' ); ?></option>
-					<option value="customer"><?php _e( 'Note to customer', 'woocommerce' ); ?></option>
 				</select>
 				<button type="button" class="add_note button"><?php _e( 'Add', 'woocommerce' ); ?></button>
 			</p>

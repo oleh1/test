@@ -281,20 +281,23 @@ class WC_Meta_Box_Order_Data {
 						<?php
 							// Display values
 							echo '<div class="address">';
-
+/*
 								if ( $order->get_formatted_billing_address() ) {
 									echo '<p><strong>' . __( 'Address:', 'woocommerce' ) . '</strong>' . wp_kses( $order->get_formatted_billing_address(), array( 'br' => array() ) ) . '</p>';
 								} else {
 									echo '<p class="none_set"><strong>' . __( 'Address:', 'woocommerce' ) . '</strong> ' . __( 'No billing address set.', 'woocommerce' ) . '</p>';
-								}
+								}*/
 
 								foreach ( self::$billing_fields as $key => $field ) {
+                                    
+                                    $field_name = 'billing_' . $key;
+                                                                
 									if ( isset( $field['show'] ) && false === $field['show'] ) {
+                                        $field_value = $order->{"get_$field_name"}( 'edit' );
+
+                                        if ($field_value) echo "<strong>" . $field['label'] .": </strong>" . $field_value; 
 										continue;
 									}
-
-									$field_name = 'billing_' . $key;
-
 									if ( is_callable( array( $order, 'get_' . $field_name ) ) ) {
 										$field_value = $order->{"get_$field_name"}( 'edit' );
 									} else {
@@ -310,6 +313,7 @@ class WC_Meta_Box_Order_Data {
 									echo '<p><strong>' . esc_html( $field['label'] ) . ':</strong> ' . wp_kses_post( $field_value ) . '</p>';
 								}
 
+							
 							echo '</div>';
 
 							// Display form

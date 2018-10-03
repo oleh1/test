@@ -808,22 +808,27 @@ class WC_Order extends WC_Abstract_Order {
 	 *
 	 * @return string
 	 */
-	public function get_formatted_billing_address() {
-		return WC()->countries->get_formatted_address( apply_filters( 'woocommerce_order_formatted_billing_address', $this->get_address( 'billing' ), $this ) );
-	}
+    public function get_formatted_billing_address( $empty_content = '' ) {
+        $address = apply_filters( 'woocommerce_order_formatted_billing_address', $this->get_address( 'billing' ), $this );
+        $address = WC()->countries->get_formatted_address( $address );
+        return $address ? $address : $empty_content;
+    }
 
 	/**
 	 * Get a formatted shipping address for the order.
 	 *
 	 * @return string
 	 */
-	public function get_formatted_shipping_address() {
-		if ( $this->has_shipping_address() ) {
-			return WC()->countries->get_formatted_address( apply_filters( 'woocommerce_order_formatted_shipping_address', $this->get_address( 'shipping' ), $this ) );
-		} else {
-			return '';
-		}
-	}
+    public function get_formatted_shipping_address( $empty_content = '' ) {
+        $address = '';
+
+        if ( $this->has_shipping_address() ) {
+            $address = apply_filters( 'woocommerce_order_formatted_shipping_address', $this->get_address( 'shipping' ), $this );
+            $address = WC()->countries->get_formatted_address( $address );
+        }
+
+        return $address ? $address : $empty_content;
+    }
 
 	/**
 	 * Returns true if the order has a shipping address.
